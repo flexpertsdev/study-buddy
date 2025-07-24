@@ -1,0 +1,14 @@
+{
+  "name": "study-buddy",
+  "version": "1.0.0",
+  "description": "Italian Study Buddy - Economics & Math Helper",
+  "scripts": {
+    "dev": "netlify dev",
+    "build": "echo 'No build needed for this project'",
+    "deploy": "netlify deploy --prod"
+  },
+  "devDependencies": {
+    "netlify-cli": "^17.10.1"
+  },
+  "dependencies": {}
+}
