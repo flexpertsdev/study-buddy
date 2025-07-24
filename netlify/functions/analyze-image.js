@@ -21,7 +21,7 @@ exports.handler = async (event) => {
   }
 
   try {
-    const { image } = JSON.parse(event.body);
+    const { image, question } = JSON.parse(event.body);
     
     if (!image) {
       return {
@@ -46,17 +46,33 @@ exports.handler = async (event) => {
             content: `You are an educational assistant helping Italian economics students understand graphs and charts. 
             Analyze the image and provide a fun, engaging explanation with real-world e-commerce examples.
             
-            Respond with a JSON object containing:
-            - basic: object with 'en' and 'it' explanations
-            - realWorld: object with 'en' and 'it' real-world applications
-            - interactive: suggestions for interactive learning`
+            IMPORTANT: Respond ONLY with a valid JSON object, no markdown formatting, no code blocks, just pure JSON.
+            
+            The JSON must have this exact structure:
+            {
+              "basic": {
+                "en": "English explanation of what the graph shows",
+                "it": "Spiegazione in italiano di cosa mostra il grafico"
+              },
+              "realWorld": {
+                "en": "English explanation of real-world e-commerce applications",
+                "it": "Spiegazione in italiano delle applicazioni nel mondo reale dell'e-commerce"
+              },
+              "interactive": {
+                "suggestions": ["suggestion 1", "suggestion 2", "suggestion 3"]
+              }
+            }
+            
+            Make sure to provide complete translations in Italian for both basic and realWorld sections.`
           },
           {
             role: "user",
             content: [
               {
                 type: "text",
-                text: "Analyze this economics graph/chart and explain it for Italian students interested in e-commerce."
+                text: question ? 
+                  `Analyze this economics graph/chart and explain it for Italian students interested in e-commerce. Also address this specific question: ${question}` :
+                  "Analyze this economics graph/chart and explain it for Italian students interested in e-commerce."
               },
               {
                 type: "image_url",
@@ -77,25 +93,26 @@ exports.handler = async (event) => {
 
     const data = await response.json();
     let analysis;
+    let content = data.choices[0].message.content;
+    
+    // Check if content is wrapped in markdown code block
+    const jsonMatch = content.match(/```json\s*([\s\S]*?)\s*```/);
+    if (jsonMatch) {
+      content = jsonMatch[1];
+    }
     
     try {
       // Try to parse as JSON
-      analysis = JSON.parse(data.choices[0].message.content);
+      analysis = JSON.parse(content);
     } catch (e) {
-      // Fallback structure
-      analysis = {
-        basic: {
-          en: data.choices[0].message.content,
-          it: "Traduzione non disponibile"
-        },
-        realWorld: {
-          en: "Analysis provided above",
-          it: "Analisi fornita sopra"
-        },
-        interactive: {
-          suggestion: "Try changing variables to see effects"
-        }
-      };
+      // Try one more time - remove any markdown formatting
+      const cleanContent = content.replace(/```[a-zA-Z]*\n?/g, '').trim();
+      try {
+        analysis = JSON.parse(cleanContent);
+      } catch (e2) {
+        // Final fallback - return error
+        throw new Error('Failed to parse AI response as JSON');
+      }
     }
 
     return {
