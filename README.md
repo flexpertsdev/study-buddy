@@ -1,26 +1,63 @@
 # Study Buddy - Italian Economics Helper
 
-A simple web app that helps Italian students understand economics graphs and charts with real-world e-commerce examples.
+Turn boring economics graphs into exciting business insights! This app helps Italian students understand economics by analyzing textbook graphs and explaining them in both English and Italian with real-world e-commerce examples.
 
-## Quick Start
+## 🚀 Live Demo
 
-1. **Install dependencies:**
+**Visit:** https://study-buddy-italy.netlify.app
+
+## Features
+
+- 📸 Upload photos of economics graphs/charts
+- 🤖 AI-powered analysis using OpenAI Vision API
+- 🇮🇹 Bilingual explanations (English & Italian)
+- 💼 Real-world business examples
+- 📱 Mobile-friendly design
+- ⚡ Instant results
+- 💾 Save explanations to local notebook
+- 📋 Copy explanations to clipboard
+- 📄 Export as HTML documents
+- 📚 Complete notebook export
+
+## 🛠️ Setup & Deployment
+
+### GitHub Repository
+- **Repo:** https://github.com/flexpertsdev/study-buddy
+- Clone: `git clone https://github.com/flexpertsdev/study-buddy.git`
+
+### Netlify Deployment
+1. Site is already deployed at: https://study-buddy-italy.netlify.app
+2. OpenAI API key is configured as environment variable
+3. Automatic deploys enabled from GitHub
+
+### Local Development
 ```bash
+# Install dependencies
 npm install
-```
 
-2. **Add your OpenAI API key:**
-Edit `.env` file and replace `your-openai-api-key-here` with your actual key
+# Set up environment variable
+# Add your OpenAI API key to .env file
+OPENAI_API_KEY=your_key_here
 
-3. **Run locally:**
-```bash
+# Run locally
 npm run dev
-```
 
-4. **Deploy to Netlify:**
-```bash
+# Deploy to production
 npm run deploy
 ```
+
+## 📝 How to Use
+
+1. Visit https://study-buddy-italy.netlify.app
+2. Upload or drag a photo of an economics graph/chart
+3. Click "✨ Analyze This!"
+4. View explanations in English and Italian
+5. Save to notebook for later study
+6. Export individual analyses or entire notebook
+
+## 🔐 Security Note
+
+The OpenAI API key is securely stored in Netlify environment variables and never exposed to the client.
 
 ## Project Structure
 
@@ -36,19 +73,4 @@ study-buddy/
 └── package.json       # Project config
 ```
 
-## Features
-
-- 📸 Upload economics graphs/charts
-- 🌐 Bilingual explanations (English/Italian)
-- 🔒 Secure API key handling via Netlify Functions
-- 📱 Mobile-optimized
-- 🚀 One-click deploy
-
-## Deployment
-
-1. Push to GitHub
-2. Connect to Netlify
-3. Add `OPENAI_API_KEY` in Netlify environment variables
-4. Deploy!
-
-Made with ❤️ by Lovingyourskin.net
+Made with ❤️ by [Lovingyourskin.net](https://lovingyourskin.net)
